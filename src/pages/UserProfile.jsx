@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-
 const UserProfile = () => {
   const location = useLocation();
   const data = location.state || {};
@@ -85,7 +84,6 @@ const UserProfile = () => {
     calculateCompletion(userProfile);
     fetchProfile();
   }, []);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -227,7 +225,9 @@ const UserProfile = () => {
 
   return (
     <div className="flex flex-col md:flex-row w-full">
+      {/* Added flexbox classes for responsive layout */}
       <div className="w-full md:w-1/4 bg-white shadow-md rounded-lg p-8 relative">
+        {/* Applied responsive width classes */}
         <div className="text-center mb-6">
           <div className="relative w-36 h-36 mx-auto rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
             {profileImage ? (
@@ -281,6 +281,7 @@ const UserProfile = () => {
         </ul> */}
       </div>
       <div className="w-full md:w-3/4 bg-white shadow-md rounded-lg p-8 mt-10 md:mt-0 md:ml-4">
+        {/* Applied responsive width classes and spacing classes */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex-1">
             <p className="text-gray-700">Complete your Profile</p>
@@ -294,43 +295,43 @@ const UserProfile = () => {
           </div>
         </div>
         {!editingProfile && (
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-              onClick={toggleProfileEditing}
-            >
-              Edit Profile{" "}
-              <span role="img" aria-label="edit">
-                ✏️
-              </span>
-            </button>
-          )}
-          {editingProfile && (
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded-lg"
-              onClick={saveProfile}
-            >
-              Save Profile
-            </button>
-          )}
-          {!editingImage && (
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg ml-4"
-              onClick={toggleImageEditing}
-            >
-              Edit Image{" "}
-              <span role="img" aria-label="edit">
-                ✏️
-              </span>
-            </button>
-          )}
-          {editingImage && (
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded-lg ml-4"
-              onClick={saveImage}
-            >
-              Save Image
-            </button>
-          )}
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+            onClick={toggleProfileEditing}
+          >
+            Edit Profile{" "}
+            <span role="img" aria-label="edit">
+              ✏️
+            </span>
+          </button>
+        )}
+        {editingProfile && (
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded-lg"
+            onClick={saveProfile}
+          >
+            Save Profile
+          </button>
+        )}
+        {!editingImage && (
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg ml-4"
+            onClick={toggleImageEditing}
+          >
+            Edit Image{" "}
+            <span role="img" aria-label="edit">
+              ✏️
+            </span>
+          </button>
+        )}
+        {editingImage && (
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded-lg ml-4"
+            onClick={saveImage}
+          >
+            Save Image
+          </button>
+        )}
         <h1 className="text-2xl font-bold text-center mb-6">User Profile</h1>
         <form>
           {renderInputField("Title", "title", "select")}
