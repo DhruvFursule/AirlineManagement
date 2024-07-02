@@ -2,7 +2,19 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bodyparser = require('body-parser');
-const stripe = require('stripe')('');
+const stripe = require('stripe')('sk_test_51PQRUE2NzjcaBcLapQzHN0G1TQbGhQudyahW9KvIR1bw8EuBeiRq63vKqP6qjEzJwlQy2gBjcHyJ4C2ZyZReNV9Z00Rdz8nu4X');
+// const multer  = require('multer')
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, '../public')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname)
+//   }
+// })
+
+// const upload = multer({ storage: storage })
 
 const app = express();
 const port = 3000;
@@ -11,11 +23,61 @@ const port = 3000;
 app.use(cors());
 
 // MongoDB connection URI
-const uri = '';
+const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
 
 // Connect to MongoDB
 client.connect();
+
+app.use(bodyparser.json());
+app.get('/api/airlines', (req, res) => {
+  const db = client.db('Airline');
+  const collection = db.collection('Airlines');
+  collection.find().toArray()
+    .then(airline => {
+      res.json(airline);
+    })
+    .catch(err => {
+      console.error('Error fetching airlines:', err);
+      res.status(500).json({ error: 'Server Error' });
+    });
+});
+
+app.post('/api/airlines', async (req, res) => {
+  const db = client.db('Airline');
+  const collection = db.collection('Airlines');
+  const data = req.body;
+  const result = await collection.insertOne(data);
+  res.send(result);
+});
+
+app.get('/api/airlines-addflt', (req, res) => {
+  const db = client.db('Airline');
+  const collection = db.collection('Airlines');
+  collection.find().toArray()
+    .then(airline => {
+      res.json(airline);
+    })
+    .catch(err => {
+      console.error('Error fetching airlines:', err);
+      res.status(500).json({ error: 'Server Error' });
+    });
+});
+
+app.post('/api/airlines-addflt', async (req, res) => {
+  const db = client.db('Airline');
+  const collection = db.collection('Airlines');
+  const data = req.body;
+  const result = await collection.updateOne(
+    { flightCode: data.flightCode },
+    { $push: { flights: data.flightNumber } }
+  );
+  if (result.modifiedCount === 1) {
+    res.status(200).send('Flight number added successfully');
+  } else {
+    res.status(404).send('No matching flight code found');
+  }
+});
 
 app.get('/api/airports', (req, res) => {
   const db = client.db('Airline');
@@ -30,7 +92,6 @@ app.get('/api/airports', (req, res) => {
     });
 });
 
-app.use(bodyparser.json());
 
 app.get('/bookings', (req, res) => {
   const db = client.db('Airline');
@@ -48,11 +109,12 @@ app.get('/bookings', (req, res) => {
 app.post('/bookings', async (req, res) => {
     const db = client.db('Airline');
     const collection = db.collection('Bookings');
-    const { email, data, formData } = req.body;
+    const { email, data, formData, time } = req.body;
     const result = await collection.insertOne({
       email, 
       data, 
       formData,
+      time
     });
 });
 
@@ -160,6 +222,36 @@ app.post('/api/update-profile', async (req, res) => {
   }
 });
 
+app.get('/api/update-profile-on', (req, res) => {
+  const db = client.db('Airline');
+  const collection = db.collection('Users');
+  collection.find().toArray()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(err => {
+      console.error('Error fetching users:', err);
+      res.status(500).json({ error: 'Server Error' });
+    });
+});
+
+app.post('/api/update-profile-on', async (req, res) => {
+  const db = client.db('Airline');
+  const collection = db.collection('Users');
+  const { email, status } = req.body;
+  const result = await collection.updateOne(
+    { email: email },
+    { $set: {status} }
+  );
+  console.log('Update status:', status);
+  if (result.modifiedCount === 1) {
+      res.status(200).json({ message: 'Status updated successfully' });
+  } else {
+      console.log('User not found for update');
+      res.status(404).json({ message: 'User not found' });
+  }
+});
+
 app.get('/api/flights', (req, res) => {
   const db = client.db('Airline');
   const collection = db.collection('Flights');
@@ -242,7 +334,7 @@ app.post('/api/flightinfo', async (req, res) => {
   const { flightNumber, departureDate } = req.body;
   const fltinfo = await collection.findOne({ flightNumber, departureDate });
     if (!fltinfo) {
-      return res.status(400).json({ success: false, message: 'Invalid email or password' });
+      return res.status(400).json({ success: false, message: 'Invalid' });
     }
     res.json(fltinfo);
 });
@@ -284,9 +376,9 @@ app.get('/api/flight', (req, res) => {
 app.post('/api/flight', async (req, res) => {
   const db = client.db('Airline');
   const collection = db.collection('Flight Info');
-  const { flightNumber, departureDate, passengers, seat } = req.body;
+  const { flightNumber, departureTime, arrivalTime, passengers, seat } = req.body;
       const result = await collection.updateOne(
-          { flightNumber, departureDate},
+          { flightNumber, departureTime},
           { $inc: { [`seatsAvailable.${seat}`]: -passengers } },
           // {returnDocument: 'after'}
       );
@@ -321,11 +413,9 @@ app.post('/api/payments', async (req, res) => {
       mode: "payment",
       success_url: `http://localhost:5173/eticket?info=${Data}`,
       cancel_url: "http://localhost:3000/cancel",
-      customer_email: data.email,
-
+      customer_email: 'john.doe@example.com',
     })
   }
-
   res.json(session);
 
 });
