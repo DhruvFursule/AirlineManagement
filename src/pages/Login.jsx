@@ -8,7 +8,7 @@ const Login = ({user, setUser}) => {
     <>
     <NavbarM user={user}/>
     <MainBody setUser={setUser}/>
-    <Footer/>
+    {/* <Footer/> */}
     </>
   )
 }

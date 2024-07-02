@@ -285,8 +285,8 @@ const Body = () => {
             </div>
           </div>
           <div className="conclude bg-black text-white m-[1.35rem] w-full flex justify-around items-start p-4">
-            <div className="vid h-44 w-80 bg-green-800 m-2">
-            <img className="h-44 w-80" src="https://cdn.dribbble.com/users/1774872/screenshots/5506429/media/b2656cb0577ed875ea891f2f90bb132b.gif"></img>
+            <div className="vid h-40 w-64 bg-green-800 m-2">
+            <img className="h-40 w-64" src="https://cdn.dribbble.com/users/1774872/screenshots/5506429/media/b2656cb0577ed875ea891f2f90bb132b.gif"></img>
             </div>
             <div className>
               <h1 className="text-xl font-semibold">INFORMATION</h1>

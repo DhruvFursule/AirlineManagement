@@ -11,7 +11,7 @@ function AirlineManagement() {
     useEffect(() => {
         const fetchFlightCounts = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/flights/count');
+                const response = await fetch('http://localhost:3000/api/airlines');
                 const data = await response.json();
                 setFlightCounts(data);
                 console.log(data);
@@ -63,6 +63,7 @@ function AirlineManagement() {
               <tr className="even:bg-gray-100">
                 <th className="border border-slate-600">#</th>
                 <th className="border border-slate-600">AIRLINE NAME</th>
+                <th className="border border-slate-600">AIRLINE CODE</th>
                 <th className="border border-slate-600">NO OF FLIGHTS</th>
                 <th className="border border-slate-600">MAKE CHANGES</th>
                 {/* <th className="border border-slate-600">ADDED DATE</th> */}
@@ -71,21 +72,22 @@ function AirlineManagement() {
                   <tr key={index} className="even:bg-zinc-300">
                     <td className="border border-slate-600 text-center px-4 py-2 font-bold">{index+1}</td>
                     <td className="border border-slate-600 text-center px-4 py-2 font-bold">{flights.flightName}</td>
-                    <td className="border border-slate-600 text-center px-4 py-2 font-bold">{flights.count}</td>
+                    <td className="border border-slate-600 text-center px-4 py-2 font-bold">{flights.flightCode}</td>
+                    <td className="border border-slate-600 text-center px-4 py-2 font-bold">{flights.flights.length}</td>
                     <td className="border border-slate-600 px-4 py-2 font-bold">
                       <div className="flex items-center justify-center">
-                        <button
-                          type="button"
-                          className="font-bold focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 m-2"
-                        >
+                        {flights.flights.length > 0 ? (
+                          <Link to='/admin/viewflt' state={{flightCode: flights.flightCode}}><button type="button" className="font-bold focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            View Flight(s)
+                          </button></Link>
+                        ):(<div></div>)}
+                        <Link to='/admin/addflt' state={{flightName: flights.flightName, flightCode: flights.flightCode, flights: flights.flights}}>
+                        <button type="button" className="font-bold focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 m-2">
                           Add Flight
-                        </button>
-                        <button
-                          type="button"
-                          className="font-bold focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                        >
-                          Delete
-                        </button>
+                        </button></Link>
+                          <button type="button" className="font-bold focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                            Delete
+                          </button>
                       </div>
                     </td>
                     {/* <td className="border border-slate-600 text-center">

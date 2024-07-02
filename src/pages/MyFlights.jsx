@@ -30,6 +30,27 @@ const MyFlights = ({user}) => {
     alert(`Flight ${flight} has been canceled.`);
   };
 
+  const formatDateTime = (dateTimeString) => {
+    if (typeof dateTimeString !== 'string')
+    return "Invalid Date";
+    const [datePart, timePart] = dateTimeString.split('T');
+    // const [year, month, day] = datePart.split('-');
+    // const [hours, minutes] = timePart.split(':');
+    // const formattedDate = `${day}-${month}-${year}`;
+    // const formattedTime = `${hours}:${minutes}`;
+    return [datePart, timePart];
+  };
+
+  const formatDate = (date) => {
+    if (typeof date !== 'string')
+    return "Invalid Date";
+    const [year, month, day] = date.split('-');
+    // const [hours, minutes] = timePart.split(':');
+    const formattedDate = `${day}-${month}-${year}`;
+    // const formattedTime = `${hours}:${minutes}`;
+    return formattedDate;
+  };
+
   return (
     <>
       <NavbarM user={user}/>
@@ -50,8 +71,8 @@ const MyFlights = ({user}) => {
                 <div className='flex justify-between items-center mt-2'>
                   <div className='text-center'>
                     <div className='font-normal'>Departure</div>
-                    <div className='text-3xl font-medium'>{flight.data.departureTime}</div>
-                    <div className='font-normal'>{flight.data.selectedDate}</div>
+                    <div className='text-3xl font-medium'>{formatDateTime(flight.data.departureTime)[1]}</div>
+                    <div className='font-normal'>{formatDate(formatDateTime(flight.data.departureTime)[0])}</div>
                   </div>
                   <div className='flex-grow relative mx-4'>
                     <span className='bg-[#00c800] h-1 w-full absolute top-1/2 transform -translate-y-1/2'></span>
@@ -61,8 +82,8 @@ const MyFlights = ({user}) => {
                   </div>
                   <div className='text-center'>
                     <div className='font-normal'>Arrival</div>
-                    <div className='text-3xl font-medium'>{flight.data.arrivalTime}</div>
-                    <div className='font-normal'>{flight.data.selectedDate}</div>
+                    <div className='text-3xl font-medium'>{formatDateTime(flight.data.arrivalTime)[1]}</div>
+                    <div className='font-normal'>{formatDate(formatDateTime(flight.data.arrivalTime)[0])}</div>
                   </div>
                 </div>
                 <div className="flex justify-end mt-2">
@@ -84,7 +105,7 @@ const MyFlights = ({user}) => {
           </div>
         </div>
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 };

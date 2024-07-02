@@ -19,11 +19,33 @@ const Navbar = ({user, setUser}) => {
     }
   };
 
+  const status = async () => {
+    console.log('Status Update');
+      const response = await fetch('http://localhost:3000/api/update-profile-on', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: user.email,
+          status: 0,
+        }),
+      });
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Network response was not ok: ${response.statusText}, ${errorMessage}`);
+      }
+      const result = await response.json();
+      console.log('Status:', result);
+  };
+
   const handleLogout = () => {
     setUser(null);
+    status();
   };
   return (
-    <nav className={navbar ? "flex justify-around items-center bg-black text-white h-16 gap-11 sticky top-0 z-10":"flex justify-around items-center bg-transparent text-white h-16 gap-11 sticky top-0 z-10"}>
+    <nav className={`${navbar ? 'bg-black' : 'bg-transparent'} flex justify-between items-center text-white h-16 gap-4 px-6 sticky top-0 z-10 transition-all duration-300`}>
+    {/* <nav className={navbar ? "flex justify-around items-center bg-black text-white h-16 gap-11 sticky top-0 z-10":"flex justify-around items-center bg-transparent text-white h-16 gap-11 sticky top-0 z-10"}> */}
       <div className='flex justify-center items-center gap-4'>
         <img src="/plane.png" alt=""/>
         <div className="logo font-bold text-xl">
@@ -38,7 +60,7 @@ const Navbar = ({user, setUser}) => {
             <li>{user ? (<Link to="/feedback" onClick={handleUserCheck}>FEEDBACK</Link>) : (<Link to="/" onClick={handleUserCheck}>FEEDBACK</Link>)}</li>
         </ul>
       </div>
-      <div id="google_translate"></div>
+      {/* <div id="google_translate"></div> */}
       {!user ? (
         <Link to="/login">
         <div className="btn flex justify-center items-center border-2 p-2 px-4 rounded-full bg-transparent hover:bg-gradient-to-r hover:from-purple-400 hover:to-blue-500 transition duration-300 hover:border-blue-950 hover:text-blue-950">

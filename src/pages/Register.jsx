@@ -15,7 +15,6 @@ const Register = () => {
     mobileNumber: ''
   });
   const navigate = useNavigate();
-
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,54 +89,43 @@ const Register = () => {
 
   return (
     <>
-    <NavbarL />
+    <NavbarL/>
     <div className="mt-28 w-3/4 bg-white p-5 rounded-2xl m-auto drop-shadow-[0_0_5px_rgba(0,0,0,0.1)]">
-      {/* Container class for responsive layout */}
-      <h1 className="text-center text-3xl font-bold">REGISTER</h1>
+      <h1 className='text-center text-3xl font-bold '>REGISTER</h1>
       <form className="w-full mt-8 bg-white rounded-xl flex flex-wrap gap-y-4 justify-between" onSubmit={handleSubmit}>
-        <div className="w-full md:w-1/3 mb-2.5 flex items-center">
-          {/* Applied responsive width classes */}
-          <select className="p-2 w-full border-b-2 border-solid border-[#ccc]" id="title" name="title" value={formData.title} onChange={handleChange}>
+        <div className="w-full md:basis-1/3 mb-2.5 flex items-center ">
+          <select className='p-2 w-4/5 border-b-2 border-solid border-[#ccc]' placeholder="title" id="title" name="title" value={formData.title} onChange={handleChange}>
             <option value="Mr.">Mr.</option>
             <option value="Ms.">Ms.</option>
             <option value="Mrs.">Mrs.</option>
             <option value="Dr.">Dr.</option>
           </select>
         </div>
-        <div className="w-full md:w-1/3 mb-2.5 flex items-center">
-          {/* Applied responsive width classes */}
-          <input className="p-2 w-full border-b-2 border-solid border-[#ccc]" type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
+        <div className="w-full md:basis-1/3 mb-2.5 flex items-center ">
+          <input className='p-2 w-4/5 border-b-2 border-solid border-[#ccc]' type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
         </div>
-        <div className="w-full md:w-1/3 mb-2.5 flex items-center">
-          {/* Applied responsive width classes */}
-          <input className="p-2 w-full border-b-2 border-solid border-[#ccc]" type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
+        <div className="w-full md:basis-1/3 mb-2.5 flex items-center">
+          <input className='p-2 w-4/5 border-b-2 border-solid border-[#ccc]' type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
         </div>
-        <div className="w-full md:w-1/3 mb-2.5 flex items-center">
-          {/* Applied responsive width classes */}
-          <input className="p-2 w-full border-b-2 border-solid border-[#ccc]" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+        <div className="w-full md:basis-1/3 mb-2.5 flex items-center">
+          <input className='p-2 w-4/5 border-b-2 border-solid border-[#ccc]' type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         </div>
-        <div className="w-full md:w-1/3 mb-2.5 flex items-center">
-          {/* Applied responsive width classes */}
-          <input className="p-2 w-full border-b-2 border-solid border-[#ccc]" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
+        <div className="w-full md:basis-1/3 mb-2.5 flex items-center">
+          <input className='p-2 w-4/5 border-b-2 border-solid border-[#ccc]' type="password" name="password" value={formData.password} onChange={handleChange} placeholder='Password' />
         </div>
-        <div className="w-full md:w-1/3 mb-2.5 flex items-center">
-          {/* Applied responsive width classes */}
-          <input className="p-2 w-full border-b-2 border-solid border-[#ccc]" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" />
+        <div className="w-full md:basis-1/3 mb-2.5 flex items-cente">
+          <input className='p-2 w-4/5 border-b-2 border-solid border-[#ccc]' type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" />
         </div>
-        <div className="w-full md:w-1/3 mb-2.5 flex items-center">
-          {/* Applied responsive width classes */}
-          <input className="p-2 w-full border-b-2 border-solid border-[#ccc]" type="number" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="Mobile Number" />
+        <div className="w-full md:basis-1/3 mb-2.5 flex items-center">
+          <input className='p-2 w-4/5 border-b-2 border-solid border-[#ccc]' type="number" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="Mobile Number" />
         </div>
-        <div className="w-full flex items-center justify-around">
-          {/* Wrapped buttons in a flex container for better layout */}
-          <button className="w-32 h-12 bg-[#8b1c64] text-white cursor-pointer rounded-xl text-xl font-semibold" type="submit" id="btn">Register</button>
-          <Link to='/login'>
-            <button className="w-32 h-12 bg-[#8b1c64] text-white cursor-pointer rounded-xl text-xl font-semibold" type="button">Back</button>
-          </Link>
+        <div className="mb-2.5 flex items-center justify-around basis-full">
+          <button className='w-32 h-12 bg-[#8b1c64] text-white cursor-pointer rounded-xl text-xl font-semibold' type="submit" id="btn">Register</button>
+          <Link to='/login'><button className='w-32 h-12 bg-[#8b1c64] text-white cursor-pointer rounded-xl text-xl font-semibold' type="button">Back</button></Link>
         </div>
       </form>
     </div>
-    <Footer />
+    {/* <Footer/> */}
     </>
   );
 }

@@ -68,6 +68,48 @@ const PassengerForm = ({user}) => {
     // console.log(formData);
   };
 
+  const timeDifference = (startTime, endTime) => {
+    // Parse the input timestamps
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+
+    // Calculate the difference in milliseconds
+    const diffMs = end - start;
+    // console.log("diff"+diffMs);
+
+    // Calculate the difference in hours and minutes
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    // Format the result
+    let result = "";
+    if(diffMinutes !== 0)
+    result = `${diffHours.toString().padStart(2, '0')}h ${diffMinutes.toString().padStart(2, '0')}m`;
+    else
+    result = `${diffHours.toString().padStart(2, '0')}h`;
+    return result;
+}
+
+  const formatDateTime = (dateTimeString) => {
+    if (typeof dateTimeString !== 'string')
+    return "Invalid Date";
+    const [datePart, timePart] = dateTimeString.split('T');
+    // const [year, month, day] = datePart.split('-');
+    // const [hours, minutes] = timePart.split(':');
+    // const formattedDate = `${day}-${month}-${year}`;
+    // const formattedTime = `${hours}:${minutes}`;
+    return [datePart, timePart];
+  };
+
+  const formatDate = (date) => {
+    if (typeof date !== 'string')
+    return "Invalid Date";
+    const [year, month, day] = date.split('-');
+    // const [hours, minutes] = timePart.split(':');
+    const formattedDate = `${day}-${month}-${year}`;
+    // const formattedTime = `${hours}:${minutes}`;
+    return formattedDate;
+  };
+
   return (
     <>
     <NavbarM user={user}/>
@@ -86,16 +128,18 @@ const PassengerForm = ({user}) => {
         <div className="flex justify-between items-center">
           <div className="text-center">
             <p className="text-lg">{data.originAirport}</p>
-            <p className="text-gray-600">{data.departureTime}</p>
+            <p className="text-gray-600">{formatDateTime(data.departureTime)[1]}</p>
+            <p className="text-gray-600">{formatDate(formatDateTime(data.departureTime)[0])}</p>
           </div>
           <div className="relative flex items-center flex-1 mx-4">
             <div className="flex-1 border-t border-gray-300 relative" style={{ top: '-0.5rem', marginLeft: '0.5rem', marginRight: '0.5rem' }}></div>
-            <p className="mx-4 text-center relative" style={{ top: '-0.75rem' }}>{data.duration}</p>
+            <p className="mx-4 text-center relative" style={{ top: '-0.75rem' }}>{timeDifference(data.departureTime, data.arrivalTime)}</p>
             <div className="flex-1 border-t border-gray-300 relative" style={{ top: '-0.5rem', marginLeft: '0.5rem', marginRight: '0.5rem' }}></div>
           </div>
           <div className="text-center">
             <p className="text-lg">{data.destinationAirport}</p>
-            <p className="text-gray-600">{data.arrivalTime}</p>
+            <p className="text-gray-600">{formatDateTime(data.arrivalTime)[1]}</p>
+            <p className="text-gray-600">{formatDate(formatDateTime(data.arrivalTime)[0])}</p>
           </div>
         </div>
       </div>
@@ -108,8 +152,8 @@ const PassengerForm = ({user}) => {
             <div className="title font-bold text-lg">Passenger {index+1}:</div>
             <div className="flex mb-3">
             </div>
-            <div className="flex mb-4">
-              <div className="w-1/2 pr-4">
+            <div className="flex flex-wrap mb-4">
+              <div className="w-full md:w-1/2 lg:w-1/3 pr-0 md:pr-4">
                 <label className="block text-gray-700">Title:</label>
                 <select
                   name="title"
@@ -124,7 +168,7 @@ const PassengerForm = ({user}) => {
                 </select>
                 {errors[index].title && <p className="text-red-500 text-sm">{errors[index].title}</p>}
               </div>
-              <div className="w-1/2 pr-4">
+              <div className="w-full md:w-1/2 lg:w-1/3 pr-0 md:pr-4">
                 <label className="block text-gray-700">First Name:</label>
                 <input
                   type="text"
@@ -136,7 +180,7 @@ const PassengerForm = ({user}) => {
                 />
                 {errors[index].firstName && <p className="text-red-500 text-sm">{errors[index].firstName}</p>}
               </div>
-              <div className="w-1/2">
+              <div className="w-full md:w-1/2 lg:w-1/3 pr-0 md:pr-4">
                 <label className="block text-gray-700">Last Name:</label>
                 <input
                   type="text"
@@ -149,8 +193,8 @@ const PassengerForm = ({user}) => {
                 {errors[index].lastName && <p className="text-red-500 text-sm">{errors[index].lastName}</p>}
               </div>
             </div>
-            <div className="flex mb-4">
-              <div className="w-1/2 pr-4">
+            <div className="flex flex-wrap mb-4">
+              <div className="w-full md:w-1/2 lg:w-1/3 pr-0 md:pr-4">
                 <label className="block text-gray-700">Gender:</label>
                 <select
                   name="gender"
@@ -164,7 +208,7 @@ const PassengerForm = ({user}) => {
                 </select>
                 {errors[index].gender && <p className="text-red-500 text-sm">{errors[index].gender}</p>}
               </div>
-              <div className="w-1/2 pr-4">
+              <div className="w-full md:w-1/2 lg:w-1/3 pr-0 md:pr-4">
                 <label className="block text-gray-700">Date of Birth:</label>
                 <input
                   type="date"
@@ -176,7 +220,7 @@ const PassengerForm = ({user}) => {
                 />
                 {errors[index].dob && <p className="text-red-500 text-sm">{errors[index].dob}</p>}
               </div>
-              <div className="w-1/2">
+              <div className="w-full md:w-1/2 lg:w-1/3 pr-0 md:pr-4">
                 <label className="block text-gray-700">Mobile Number:</label>
                 <input
                   type="number"
@@ -198,7 +242,7 @@ const PassengerForm = ({user}) => {
         </button></Link>
       </form>
     </div>
-    <Footer/>
+    {/* <Footer/> */}
     </>
   );
 };

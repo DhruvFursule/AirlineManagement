@@ -9,6 +9,26 @@ const MainBody = ({setUser}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const status = async () => {
+    console.log('Status Update');
+      const response = await fetch('http://localhost:3000/api/update-profile-on', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          status: 1,
+        }),
+      });
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Network response was not ok: ${response.statusText}, ${errorMessage}`);
+      }
+      const result = await response.json();
+      console.log('Status:', result);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -36,10 +56,11 @@ const MainBody = ({setUser}) => {
       if(result.success)
       {
           alert(result.message);
-            // window.location.href = '/';
-            setUser({email: email, title: result.user.title, firstName: result.user.firstName, lastName: result.user.lastName, mobileNumber: result.user.mobileNumber});
-            // const from = location.state?.from?.pathname || '/';
-            navigate(-1);
+          status();
+          // window.location.href = '/';
+          setUser({email: email, title: result.user.title, firstName: result.user.firstName, lastName: result.user.lastName, mobileNumber: result.user.mobileNumber});
+          // const from = location.state?.from?.pathname || '/';
+          navigate(-1);
       }
       else
         alert(result.message);
@@ -56,8 +77,8 @@ const MainBody = ({setUser}) => {
 
   return (
     <>
-      <div className='content flex pt-[100px] gap-[50px] h-[89.2vh] justify-center bg-red-300'>
-        <div className='login w-[40vw] h-[60vh] bg-white border rounded-2xl text-center pt-[40px]'>
+      <div className='content flex flex-col md:flex-row pt-[100px] gap-[50px] h-[89.2vh] justify-center bg-red-300'>
+        <div className='login w-full md:w-[40vw] h-[60vh] bg-white border rounded-2xl text-center pt-[40px]'>
           <h1 className='bg-white text-3xl font-bold'>Login</h1>
           <div className='info flex flex-col mt-8 bg-white items-center'>
             <form className='bg-white relative' onSubmit={handleSubmit}>
@@ -76,16 +97,16 @@ const MainBody = ({setUser}) => {
             </form>
           </div>
         </div>
-        <div className='separation w-[5px] h-[45vh] bg-[#8b1c64]'>
+        <div className='separation hidden md:block w-[5px] h-[45vh] bg-[#8b1c64]'>
         </div>
-        <div className='register w-[40vw] h-[60vh] bg-white border rounded-2xl text-center pt-[40px]'>
+        <div className='register w-full md:w-[40vw] h-[60vh] bg-white border rounded-2xl text-center pt-[40px]'>
           <h1 className='bg-white text-3xl font-bold'>Don't Have An Account Yet?</h1>
           <div className='mt-[40px]'>
             <p className='text-2xl'>Booking flights, managing reservations</p>
             <p className='text-2xl'>and explore the world</p>
             <p className='text-2xl'>with us</p>
           </div>
-          <Link to='/register'><button className='mt-[40px] w-36 h-14 text-2xl border rounded-xl text-white font-semibold bg-[#8b1c64] hover:bg-[#4c0c36] text-center'>Register</button></Link>
+          <Link to='/register'><button className='mt-[40px] w-full md:w-36 h-14 text-2xl border rounded-xl text-white font-semibold bg-[#8b1c64] hover:bg-[#4c0c36] text-center'>Register</button></Link>
 
         </div>
       </div>

@@ -14,7 +14,7 @@ import MyFlights from './pages/MyFlights'
 import FlightStatus from './pages/FlightStatus'
 import UserProfile from './pages/UserProfile'
 import AirlineManagement from './sso/AirlineManagement'
-import Passengers from './sso/Passengers'
+import Bookings from './sso/Bookings'
 import Update from './sso/Update'
 import Feedbacks from './sso/Feedbacks'
 import AddFlight from './sso/AddFlight'
@@ -24,6 +24,10 @@ import AddAirline from './sso/AddAirline'
 import Profile from './sso/Profile'
 import AdminDashboard from './sso/AdminDashboard'
 import About from './pages/About'
+import ViewFlights from './sso/ViewFlights'
+import UserInfo from './sso/UserInfo'
+import PassInfo from './sso/PassInfo'
+import PassList from './sso/PassList'
 
 function App() {
 
@@ -68,8 +72,9 @@ function App() {
         {/* Admin Portal Routes */}
 
         <Route path='/admin/airlinemanagement' element={<AirlineManagement/>}/>
-        <Route path='/admin/passengers' element={<Passengers/>}/>
-        <Route path='/admin/updateflt' element={<Schedule/>}/>
+        <Route path='/admin/bookings' element={<Bookings/>}/>
+        <Route path='/admin/scheduleflt' element={<Schedule/>}/>
+        <Route path='/admin/viewflt' element={<ViewFlights/>}/>
         <Route path='/admin/feedback' element={<Feedbacks/>}/>
         <Route path='/admin/fltmanagement' element={<FlightsManagement/>}/>
         <Route path='/admin/addflt' element={<AddFlight/>}/>
@@ -77,6 +82,9 @@ function App() {
         <Route path='/admin/addairline' element={<AddAirline/>}/>
         <Route path='/admin/profile' element={<Profile/>}/>
         <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
+        <Route path='/admin/userinfo' element={<UserInfo/>}/>
+        <Route path='/admin/passinfo' element={<PassInfo/>}/>
+        <Route path='/admin/passlist' element={<PassList/>}/>
       </Routes>
       </Router>
     </>
